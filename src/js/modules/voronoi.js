@@ -184,15 +184,15 @@ export class Voronoi {
         var self = this
 
         var colours = (data[self.database.currentKey]==='ALP') ? ["white","#b51800"] : 
-        (data[self.database.currentKey]==='GRN') ? ["white","#298422"] : 
+        (data[self.database.currentKey]==='IND') ? ["white","#525a66"] : 
+        (data[self.database.currentKey]==='GRN') ? ["white","#298422"] :
         (data[self.database.currentKey]==='XEN') ? ["white","#e6711b"] : 
         (data[self.database.currentKey]==='ON') ? ["white","#cd34b5"] : 
         (data[self.database.currentKey]==='LP') ? ["white","#005689"] : 
         (data[self.database.currentKey]==='LNP') ? ["white","#005689"] : 
         (data[self.database.currentKey]==='CLP') ? ["white","#005689"] :
         (data[self.database.currentKey]==='KAP') ? ["white","#ff9b0b"] : 
-        (data[self.database.currentKey]==='NP') ? ["white","#197caa"] : 
-        ["white","grey"] ;
+        (data[self.database.currentKey]==='NP') ? ["white","#197caa"] : ["white","darkgrey"] ;
 
         var scaleColour = d3.scaleLinear().domain([0, 80]).range(colours); 
 
