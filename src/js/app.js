@@ -16,9 +16,18 @@ const app = {
 
 		loadJson('https://interactive.guim.co.uk/gis/voronoi.json?t=' + new Date().getTime())
 			.then((resp) => {
-				new Voronoi(data, resp, "PPId")
+				app.electorates(data, resp)
+			})
+	},
+
+	electorates: (googledoc, voronoi) => {
+
+		loadJson('<%= path %>/assets/electorates.json?t=' + new Date().getTime())
+			.then((resp) => {
+				new Voronoi(googledoc, voronoi, resp)
 			})
 	}
+
 
 }
 

@@ -10,7 +10,7 @@ import '../modules/Leaflet.GoogleMutant.js'
 
 export class Voronoi {
 
-	constructor(data, boundaries, id) {
+	constructor(data, boundaries, electorates) {
 
         var self = this
 
@@ -18,11 +18,13 @@ export class Voronoi {
 
         this.boundaries = boundaries
 
-        this.boundaryID = id
+        this.boundaryID = "PPId"
 
         this.zoomLevel = 1
 
         this.toolbelt = new Toolbelt()
+
+        this.electorates = topojson.feature(electorates, electorates.objects.electorates)
 
         /*
         Create a set of keys based on the JSON from the Googledoc data table
@@ -238,6 +240,7 @@ export class Voronoi {
                     .attr("height", barHeight)
                     .attr("fill", self.scaleColour(d))
                     .attr("stroke", "#dcdcdc")
+                    .style("opacity", 0.5)
             })
 
             label.forEach(function(d, i) {
@@ -257,7 +260,10 @@ export class Voronoi {
 
         var self = this
 
-        var map = L.map('map',{ renderer: L.canvas() }).setView([-27, 133.772541], 4);
+        var map = L.map('map', { 
+            renderer: L.canvas(),
+            scrollWheelZoom: false
+        }).setView([-27, 133.772541], 4);
 
         var styled = L.gridLayer.googleMutant({
 
@@ -266,6 +272,21 @@ export class Voronoi {
             styles: mapstyles
 
         }).addTo(map);
+
+        this.electoratePolygons = L.geoJSON(self.electorates, {
+
+          style: {
+                "color": "black",
+                "weight": 1,
+                "fillOpacity": 0,
+                "dashArray": "5, 5", 
+                "dashOffset": 0,
+                "opacity": 1
+            }
+
+        }).addTo(map);
+
+
 
         self.geojson = topojson.feature(self.boundaries, self.boundaries.objects.polling)
 
@@ -278,7 +299,7 @@ export class Voronoi {
                 "color": `${colour}`,
                 "weight": 1,
                 "fillOpacity": 0.5,
-                "opacity": 1
+                "opacity": 0.2
             };
 
             return voronoiStyle
@@ -318,7 +339,7 @@ export class Voronoi {
             info.update(d.layer.feature.properties);
 
         });
-        
+
     }
 
     updateMap() {
