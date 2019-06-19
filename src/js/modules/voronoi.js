@@ -241,7 +241,7 @@ export class Voronoi {
                     .attr("height", barHeight)
                     .attr("fill", self.scaleColour(d))
                     .attr("stroke", "#dcdcdc")
-                    .style("opacity", 0.5)
+                    .style("opacity", 0.8)
             })
 
             label.forEach(function(d, i) {
