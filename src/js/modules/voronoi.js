@@ -241,7 +241,7 @@ export class Voronoi {
                     .attr("height", barHeight)
                     .attr("fill", self.scaleColour(d))
                     .attr("stroke", "#dcdcdc")
-                    .style("opacity", 0.5)
+                    .style("opacity", 0.8)
             })
 
             label.forEach(function(d, i) {
@@ -274,20 +274,7 @@ export class Voronoi {
 
         }).addTo(map);
 
-        this.electoratePolygons = L.geoJSON(self.electorates, {
-
-          style: {
-                "color": "black",
-                "weight": 1,
-                "fillOpacity": 0,
-                "dashArray": "5, 5", 
-                "dashOffset": 0,
-                "opacity": 1
-            }
-
-        }).addTo(map);
-
-
+        
 
         self.geojson = topojson.feature(self.boundaries, self.boundaries.objects.polling)
 
@@ -340,6 +327,20 @@ export class Voronoi {
             info.update(d.layer.feature.properties);
 
         });
+
+        this.electoratePolygons = L.geoJSON(self.electorates, {
+
+          style: {
+                "color": "black",
+                "weight": 1,
+                "fillOpacity": 0,
+                "dashArray": "5, 5", 
+                "dashOffset": 0,
+                "opacity": 1
+            },
+            interactive: false
+
+        }).addTo(map);
 
     }
 
