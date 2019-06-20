@@ -184,7 +184,7 @@ export class Voronoi {
         var self = this
 
         var colours = (data[self.database.currentKey]==='ALP') ? ["white","#b51800"] : 
-        (data[self.database.currentKey]==='IND') ? ["white","#525a66"] : 
+        (data[self.database.currentKey]==='IND') ? ["white","#5623ce"] : 
         (data[self.database.currentKey]==='GRN') ? ["white","#298422"] :
         (data[self.database.currentKey]==='XEN') ? ["white","#e6711b"] : 
         (data[self.database.currentKey]==='ON') ? ["white","#cd34b5"] : 
