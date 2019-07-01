@@ -6,10 +6,9 @@ const app = {
 	init: () => {
 
 		Promise.all([loadJson("https://interactive.guim.co.uk/docsdata/19sWVbvRSAE9Xxs9FnKRTTzUMSEJ28s45wgSdAzizvb0.json"),
-				loadJson("https://interactive.guim.co.uk/gis/voronoi.json"),
-				loadJson("<%= path %>/assets/electorates.json")])
+				loadJson("https://interactive.guim.co.uk/gis/voronoi.json")])
 			.then((allData) => {
-				new Voronoi(allData[0].sheets, allData[1], allData[2])
+				new Voronoi(allData[0].sheets, allData[1])
 			},
 			function error(e) {
 				throw e;

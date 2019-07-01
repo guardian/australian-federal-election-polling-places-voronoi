@@ -10,7 +10,7 @@ import '../modules/Leaflet.GoogleMutant.js'
 
 export class Voronoi {
 
-	constructor(data, boundaries, electorates) {
+	constructor(data, boundaries) {
 
         var self = this
 
@@ -23,8 +23,6 @@ export class Voronoi {
         this.zoomLevel = 1
 
         this.toolbelt = new Toolbelt()
-
-        this.electorates = topojson.feature(electorates, electorates.objects.electorates)
 
         /*
         Create a set of keys based on the JSON from the Googledoc data table
@@ -95,6 +93,8 @@ export class Voronoi {
 
         this.database.currentKey = self.database.mapping[0].data;
 
+        this.database.allParties = (self.database.currentIndex===0) ? true : false ;
+
 
         /*
         Check to see if user is on a mobile.
@@ -129,7 +129,11 @@ export class Voronoi {
 
             self.database.currentIndex = index
 
+            self.database.allParties = (self.database.currentIndex===0) ? true : false ;
+
             self.database.currentKey = self.database.mapping[index].data
+
+            self.ractive.set("allParties", self.database.allParties)
 
             self.colourizer()
 
@@ -156,6 +160,7 @@ export class Voronoi {
         GoogleMapsLoader.load(function(google) {
             self.initMap()
         });
+
 
     }
 
@@ -192,7 +197,7 @@ export class Voronoi {
         (data[self.database.currentKey]==='LNP') ? ["white","#005689"] : 
         (data[self.database.currentKey]==='CLP') ? ["white","#005689"] :
         (data[self.database.currentKey]==='KAP') ? ["white","#ff9b0b"] : 
-        (data[self.database.currentKey]==='NP') ? ["white","#197caa"] : ["white","darkgrey"] ;
+        (data[self.database.currentKey]==='NP') ? ["white","#005689"] : ["white","darkgrey"] ;
 
         var scaleColour = d3.scaleLinear().domain([0, 80]).range(colours); 
 
@@ -261,7 +266,7 @@ export class Voronoi {
 
         var self = this
 
-        var map = L.map('map', { 
+        this.map = L.map('map-voronoi', { 
             renderer: L.canvas(),
             scrollWheelZoom: false
         }).setView([-27, 133.772541], 4);
@@ -272,7 +277,7 @@ export class Voronoi {
 
             styles: mapstyles
 
-        }).addTo(map);
+        }).addTo(self.map);
 
         
 
@@ -314,13 +319,13 @@ export class Voronoi {
             this._div.innerHTML = html
         };
 
-        info.addTo(map);
+        info.addTo(self.map);
 
         this.voronoiPolygons = L.geoJSON(self.geojson, {
 
           style: voronoiStylizer
 
-        }).addTo(map);
+        }).addTo(self.map);
 
         this.voronoiPolygons.on('mouseover', function(d) {
 
@@ -328,6 +333,9 @@ export class Voronoi {
 
         });
 
+        this.updateBoundaries()
+
+        /*
         this.electoratePolygons = L.geoJSON(self.electorates, {
 
           style: {
@@ -341,7 +349,57 @@ export class Voronoi {
             interactive: false
 
         }).addTo(map);
+        */
 
+    }
+
+    updateBoundaries() {
+
+        var self = this
+
+        var combined = this.database.data.map( (item) => item.DivName )
+
+        var uniques = new Set(combined);
+
+        var electorates = Array.from(uniques);
+
+        for (var i = 0; i < electorates.length; i++) {
+
+            var electorate = self.database.data.filter( (item) => item.DivName === electorates[i])
+
+            var array = electorate.map( (item) => item.id )
+
+            var boundary = topojson.merge(self.boundaries, self.boundaries.objects.polling.geometries.filter(function(d) { 
+                return (self.contains(array, d.properties.PPId))
+            }))
+
+            L.geoJSON(boundary, {
+
+                style: {
+                    "color": "black",
+                    "weight": 1,
+                    "fillOpacity": 0,
+                    "dashArray": "5, 5", 
+                    "dashOffset": 0,
+                    "opacity": 1
+                },
+                interactive: false
+
+            }).addTo(self.map);
+
+        }
+
+    }
+
+    contains(a, b) {
+
+        if (Array.isArray(b)) {
+
+            return b.some(x => a.indexOf(x) > -1);
+
+        }
+
+        return a.indexOf(b) > -1;
     }
 
     updateMap() {

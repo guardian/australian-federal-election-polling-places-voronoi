@@ -36,14 +36,44 @@
 
                 </div>
 
+                {{#if allParties}}
+
+                <div class="colour_vision_key">
+                    <div class="keyDiv">
+                        <span class="keyCircle" data-cat="SA" style="background: #005689"></span> <span class="keyText">Coalition</span>
+                    </div>
+                    <div class="keyDiv">
+                        <span class="keyCircle" data-cat="TAS" style="background: #b51800"></span> <span class="keyText">Labor</span>
+                    </div>
+                    <div class="keyDiv">
+                        <span class="keyCircle" data-cat="ACT" style="background: #298422"></span> <span class="keyText">Greens</span>
+                    </div>
+                    <div class="keyDiv">
+                        <span class="keyCircle" data-cat="QLD" style="background: #e6711b"></span> <span class="keyText">Centre Alliance</span>
+                    </div>
+                    <div class="keyDiv">
+                        <span class="keyCircle" data-cat="WA" style="background: #ff9b0b"></span> <span class="keyText">Katter Australia Party</span>
+                    </div>
+                    <div class="keyDiv">
+                        <span class="keyCircle" data-cat="NT" style="background: #cd34b5"></span> <span class="keyText">One Nation</span>
+                    </div>
+                    <div class="keyDiv">
+                        <span class="keyCircle" data-cat="NT" style="background: #5623ce"></span> <span class="keyText">Independent</span>
+                    </div>
+
+                </div>
+
+                {{/if}}
+
+
             </div>
 
         </div>
 
     </div>
 
-    <div id="mapContainer">
-            <div id="map"></div>
+    <div id="mapContainer-voronoi">
+            <div id="map-voronoi"></div>
     </div>
 
     <div class="row notes">
