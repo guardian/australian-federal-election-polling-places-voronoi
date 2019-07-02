@@ -20,5 +20,29 @@
 		border-radius: 50%;
 		display: inline-block;
 		opacity: 0.8;
-	}	
+	}
+
+
+}
+
+.subtitle {
+	font-family: 'Guardian Text Sans Web',Arial;
+	color:#767676;
+	margin-bottom: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 16px;
+	margin-bottom: 20px;
+
+}
+
+h2 {
+	font-family: "Guardian Headline Full",Georgia,serif;
+	font-size:20px;
+}	
+
+.interactive-wrapper {
+	background: #FFF;
+	border-top: 0.0625rem solid #dcdcdc;
+	border-bottom: 0.0625rem solid #dcdcdc;
 }

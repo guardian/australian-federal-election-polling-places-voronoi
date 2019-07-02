@@ -41,15 +41,6 @@
     margin-right: 5px;
 }
 
-.interactive-wrapper #standfirst {
-    margin-left: 5px;
-    margin-right: 5px;
-    font-size: 16px;
-    line-height: 20px;
-    font-family:"Guardian Headline Full";
-	margin-bottom: 20px;
-
-}
 .interactive-wrapper .row {
     width: 100%;
 }
