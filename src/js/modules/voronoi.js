@@ -279,8 +279,6 @@ export class Voronoi {
 
         }).addTo(self.map);
 
-        
-
         self.geojson = topojson.feature(self.boundaries, self.boundaries.objects.polling)
 
         function voronoiStylizer(d) {
@@ -335,22 +333,6 @@ export class Voronoi {
 
         this.updateBoundaries()
 
-        /*
-        this.electoratePolygons = L.geoJSON(self.electorates, {
-
-          style: {
-                "color": "black",
-                "weight": 1,
-                "fillOpacity": 0,
-                "dashArray": "5, 5", 
-                "dashOffset": 0,
-                "opacity": 1
-            },
-            interactive: false
-
-        }).addTo(map);
-        */
-
     }
 
     updateBoundaries() {
@@ -363,6 +345,8 @@ export class Voronoi {
 
         var electorates = Array.from(uniques);
 
+        var array = [];
+
         for (var i = 0; i < electorates.length; i++) {
 
             var electorate = self.database.data.filter( (item) => item.DivName === electorates[i])
@@ -373,7 +357,7 @@ export class Voronoi {
                 return (self.contains(array, d.properties.PPId))
             }))
 
-            L.geoJSON(boundary, {
+            var bound = L.geoJSON(boundary, {
 
                 style: {
                     "color": "black",
@@ -387,7 +371,11 @@ export class Voronoi {
 
             }).addTo(self.map);
 
+            array.push(bound);
+
         }
+
+        var polity = L.featureGroup(array).addTo(self.map);
 
     }
 
