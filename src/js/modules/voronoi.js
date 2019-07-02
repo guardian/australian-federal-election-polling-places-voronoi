@@ -7,6 +7,7 @@ import GoogleMapsLoader from 'google-maps';
 import mapstyles from '../modules/mapstyles.json'
 import L from 'leaflet'
 import '../modules/Leaflet.GoogleMutant.js'
+import { GestureHandling } from "leaflet-gesture-handling";
 
 export class Voronoi {
 
@@ -284,10 +285,13 @@ export class Voronoi {
 
         var self = this
 
+        var zoomStart = (document.getElementById("map-voronoi").offsetWidth > 550) ? 4 : 3
+
         this.map = L.map('map-voronoi', { 
             renderer: L.canvas(),
-            scrollWheelZoom: false
-        }).setView([-27, 133.772541], 4);
+            scrollWheelZoom: false,
+            gestureHandling: true
+        }).setView([-27, 133.772541], zoomStart);
 
         var styled = L.gridLayer.googleMutant({
 
@@ -348,6 +352,30 @@ export class Voronoi {
             info.update(d.layer.feature.properties);
 
         });
+
+        var isAndroidApp = (window.location.origin === "file://" && /(android)/i.test(navigator.userAgent) ) ? true : false ;
+
+        var el = document.getElementById('map-voronoi');
+
+        el.ontouchstart = function(e){
+
+            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
+
+              window.top.GuardianJSInterface.registerRelatedCardsTouch(true);
+
+            }
+        };
+
+        el.ontouchend = function(e){
+
+            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
+
+              window.top.GuardianJSInterface.registerRelatedCardsTouch(false);
+
+            }
+
+        };
+
 
         this.updateBoundaries()
 

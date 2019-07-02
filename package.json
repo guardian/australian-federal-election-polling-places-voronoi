@@ -59,6 +59,7 @@
     "gulp-sass": "^4.0.2",
     "leaflet": "^1.5.1",
     "leaflet-canvas-geojson": "0.0.8",
+    "leaflet-gesture-handling": "^1.1.8",
     "load-google-maps-api": "^1.3.3",
     "lodash": "^4.17.11",
     "mustache": "^2.3.0",

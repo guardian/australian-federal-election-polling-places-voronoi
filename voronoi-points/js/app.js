@@ -1,8 +1,11 @@
+var zoomStart = (document.getElementById("map").offsetWidth > 550) ? 4 : 3
+
 var map = L.map('map',{
-    minZoom: 4,
+    minZoom: 3,
     maxZoom: 13,
-    scrollWheelZoom: false
-}).setView([-27, 133.772541], 4);
+    scrollWheelZoom: false,
+    gestureHandling: true
+}).setView([-27, 133.772541], zoomStart);
 
 var styled = L.gridLayer.googleMutant({
 
