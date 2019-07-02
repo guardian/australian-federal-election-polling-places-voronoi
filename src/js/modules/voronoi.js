@@ -209,7 +209,9 @@ export class Voronoi {
 
         var self = this
 
-        this.keyWidth = 290;
+        this.keyWidth = 300;
+
+        this.keyHeight = 50
 
         if (this.keyWidth > this.width - 10) {
             this.keyWidth = this.width - 10
@@ -221,43 +223,48 @@ export class Voronoi {
 
             this.keySvg = d3.select("#keyContainer").append("svg")
                 .attr("width", self.keyWidth)
-                .attr("height", "40px")
+                .attr("height", `${self.keyHeight}px`)
                 .attr("id", "keySvg")
             
-            this.keySquare = 30 //this.keyWidth / 10;
+            var legend = this.keySvg.append("defs")
+              .append("svg:linearGradient")
+              .attr("id", "gradient")
+              .attr("x1", "0%")
+              .attr("y1", "100%")
+              .attr("x2", "100%")
+              .attr("y2", "100%")
+              .attr("spreadMethod", "pad");
 
-            const barHeight = 15
-            const height = 30
+            legend.append("stop")
+              .attr("offset", "0%")
+              .attr("stop-color", self.keyColors[0])
+              .attr("stop-opacity", 1);
 
-            var value = [0, 20, 40, 60, 80];
+            legend.append("stop")
+              .attr("offset", "100%")
+              .attr("stop-color", self.keyColors[1])
+              .attr("stop-opacity", 1);
+
+            this.keySvg.append("rect")
+              .attr("width", self.keyWidth)
+              .attr("height", self.keyHeight - 30)
+              .style("fill", "url(#gradient)")
+              .attr("transform", "translate(0,10)");
 
             var label = ["0%", "20%", "40%", "60%", "80%"];   
 
-            this.keyWidth = document.querySelector("#keyContainer").getBoundingClientRect().width - 10
+            var values = [0, 75, 150, 225, 300]
 
-            this.keySquare = this.keyWidth / 6;
-
-            value.forEach(function(d, i) {
-
-                self.keySvg.append("rect")
-                    .attr("x", self.keySquare * i)
-                    .attr("y", 0)
-                    .attr("width", self.keySquare)
-                    .attr("height", barHeight)
-                    .attr("fill", self.scaleColour(d))
-                    .attr("stroke", "#dcdcdc")
-                    .style("opacity", 0.8)
-            })
+            var position = ["start","middle","middle","middle","end"]
 
             label.forEach(function(d, i) {
 
                 self.keySvg.append("text")
-                    .attr("x", (i) * self.keySquare)
-                    .attr("text-anchor", "start")
-                    .attr("y", height)
+                    .attr("x", values[i])
+                    .attr("text-anchor", position[i])
+                    .attr("y", self.keyHeight - 8)
                     .attr("class", "keyLabel").text(d)
             })
-
         }
  
     }
