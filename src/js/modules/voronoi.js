@@ -209,9 +209,11 @@ export class Voronoi {
 
         var self = this
 
-        this.keyWidth = 300;
+        var margin = {top: 10, right: 10, bottom: 10, left: 10};
 
-        this.keyHeight = 50
+        this.keyWidth = 320 - margin.left - margin.right;
+
+        this.keyHeight = 70 - margin.top - margin.bottom;
 
         if (this.keyWidth > this.width - 10) {
             this.keyWidth = this.width - 10
@@ -222,8 +224,8 @@ export class Voronoi {
         if (self.database.currentKey!="FP_PartyAb") {
 
             this.keySvg = d3.select("#keyContainer").append("svg")
-                .attr("width", self.keyWidth)
-                .attr("height", `${self.keyHeight}px`)
+                .attr("width", 320)
+                .attr("height", `${70}px`)
                 .attr("id", "keySvg")
             
             var legend = this.keySvg.append("defs")
@@ -245,26 +247,35 @@ export class Voronoi {
               .attr("stop-color", self.keyColors[1])
               .attr("stop-opacity", 1);
 
-            this.keySvg.append("rect")
+            var g = this.keySvg.append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            g.append("rect")
               .attr("width", self.keyWidth)
               .attr("height", self.keyHeight - 30)
               .style("fill", "url(#gradient)")
               .attr("transform", "translate(0,10)");
 
-            var label = ["0%", "20%", "40%", "60%", "80%"];   
+            var y = d3.scaleLinear()
+              .range([0, 300])
+              .domain([0, 80]);
 
-            var values = [0, 75, 150, 225, 300]
+            var yAxis = d3.axisBottom()
+              .scale(y)
+              .ticks(5)
+              .tickFormat((d) => (d+'%'));
 
-            var position = ["start","middle","middle","middle","end"]
+            g.append("g")
+              .attr("class", "y axis")
+              .attr("transform", "translate(0,30)")
+              .call(yAxis)
+              .append("text")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 0)
+              .attr("dy", ".71em")
+              .style("text-anchor", "end")
+              .text("axis title");
 
-            label.forEach(function(d, i) {
-
-                self.keySvg.append("text")
-                    .attr("x", values[i])
-                    .attr("text-anchor", position[i])
-                    .attr("y", self.keyHeight - 8)
-                    .attr("class", "keyLabel").text(d)
-            })
         }
  
     }
