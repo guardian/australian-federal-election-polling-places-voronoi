@@ -5,8 +5,10 @@ const app = {
 
 	init: () => {
 
+		// https://interactive.guim.co.uk/gis/voronoi.json
+
 		Promise.all([loadJson("https://interactive.guim.co.uk/docsdata/19sWVbvRSAE9Xxs9FnKRTTzUMSEJ28s45wgSdAzizvb0.json"),
-				loadJson("https://interactive.guim.co.uk/gis/voronoi.json")])
+				loadJson("<%= path %>/assets/voronoi.json")])
 			.then((allData) => {
 				new Voronoi(allData[0].sheets, allData[1])
 			},
