@@ -287,10 +287,16 @@ export class Voronoi {
 
         var zoomStart = (document.getElementById("map-voronoi").offsetWidth > 550) ? 4 : 3
 
-        this.map = L.map('map-voronoi', { 
+        L.Map.addInitHook("addHandler", "gestureHandling", GestureHandling);
+
+        this.map = L.map('map-voronoi', {
+
             renderer: L.canvas(),
+
             scrollWheelZoom: false,
-            gestureHandling: true
+
+            gestureHandling: (self.isMobile) ? true : false
+
         }).setView([-27, 133.772541], zoomStart);
 
         var styled = L.gridLayer.googleMutant({
@@ -350,6 +356,12 @@ export class Voronoi {
         this.voronoiPolygons.on('mouseover', function(d) {
 
             info.update(d.layer.feature.properties);
+
+        });
+
+        this.voronoiPolygons.on('click', function(d) {
+
+            L.DomEvent.stopPropagation(d);
 
         });
 
