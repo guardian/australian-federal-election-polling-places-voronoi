@@ -52,7 +52,7 @@
   "dependencies": {
     "@google/maps": "^0.5.5",
     "core-js": "^2.6.9",
-    "d3": "^5.9.2",
+    "d3": "^7.6.1",
     "google-maps": "^3.3.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
